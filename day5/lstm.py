@@ -69,8 +69,9 @@ model.add(Dense(1))
 model.add(Activation('sigmoid'))
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-model.fit(x, y, batch_size=64, epochs=3)
+model.fit(x, y, batch_size=16, epochs=30)
 predictions = model.predict(xt)
+np.savetxt('predictions.csv', predictions, delimiter=',', fmt='%f')
 
 # 有坑，不应该是int32，应该是int64，因为yt是int64，而且数据维度也要保持一致，不然mean算出来会错
 # classes = (predictions > 0.5).astype("int32")
@@ -78,8 +79,7 @@ classes = (predictions > 0.5).astype("int64")
 # 而且数据性状也要一致，不能是(y_num, 1)
 classes = classes.reshape(-1)
 # # 检查数据形状
-# np.savetxt('classes.csv', classes, delimiter=',', fmt='%d')
-# np.savetxt('yt.csv', yt, delimiter=',', fmt='%d')
+np.savetxt('yt.csv', yt, delimiter=',', fmt='%d')
 print("classes 的数据类型:", classes.dtype)
 print("yt 的数据类型:", yt.dtype)
 print("classes 的形状:", classes.shape)
